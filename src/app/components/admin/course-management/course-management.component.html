@@ -1,0 +1,175 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h4>{{ isEditing ? 'Edit Course' : 'Add New Course' }}</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="programId" class="form-label">Program</label>
+              <select
+                class="form-select"
+                id="programId"
+                formControlName="programId"
+                (change)="onProgramChange($event.target.value)"
+              >
+                <option value="">Select Program</option>
+                <option *ngFor="let program of programs" [value]="program.id">
+                  {{ program.name }}
+                </option>
+              </select>
+              <div class="text-danger" *ngIf="courseForm.get('programId')?.touched && courseForm.get('programId')?.errors?.['required']">
+                Program is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="name" class="form-label">Course Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                placeholder="Enter course name"
+              >
+              <div class="text-danger" *ngIf="courseForm.get('name')?.touched && courseForm.get('name')?.errors?.['required']">
+                Course name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="semester" class="form-label">Semester</label>
+              <select
+                class="form-select"
+                id="semester"
+                formControlName="semester"
+              >
+                <option value="">Select Semester</option>
+                <option *ngFor="let semester of semesters" [value]="semester">
+                  {{ semester }}
+                </option>
+              </select>
+              <div class="text-danger" *ngIf="courseForm.get('semester')?.touched && courseForm.get('semester')?.errors?.['required']">
+                Semester is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="group" class="form-label">Group</label>
+              <select
+                class="form-select"
+                id="group"
+                formControlName="group"
+              >
+                <option value="">Select Group</option>
+                <option *ngFor="let group of groups" [value]="group">
+                  {{ group }}
+                </option>
+              </select>
+              <div class="text-danger" *ngIf="courseForm.get('group')?.touched && courseForm.get('group')?.errors?.['required']">
+                Group is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                formControlName="description"
+                rows="3"
+                placeholder="Enter course description"
+              ></textarea>
+              <div class="text-danger" *ngIf="courseForm.get('description')?.touched && courseForm.get('description')?.errors?.['required']">
+                Description is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image URL</label>
+              <input
+                type="text"
+                class="form-control"
+                id="imageUrl"
+                formControlName="imageUrl"
+                placeholder="Enter image URL"
+              >
+              <div class="text-danger" *ngIf="courseForm.get('imageUrl')?.touched && courseForm.get('imageUrl')?.errors?.['required']">
+                Image URL is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="videoUrl" class="form-label">Video URL</label>
+              <input
+                type="text"
+                class="form-control"
+                id="videoUrl"
+                formControlName="videoUrl"
+                placeholder="Enter video URL"
+              >
+              <div class="text-danger" *ngIf="courseForm.get('videoUrl')?.touched && courseForm.get('videoUrl')?.errors?.['required']">
+                Video URL is required
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="!courseForm.valid">
+                {{ isEditing ? 'Update Course' : 'Add Course' }}
+              </button>
+              <button type="button" class="btn btn-secondary" *ngIf="isEditing" (click)="resetForm()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4>Courses List</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Semester</th>
+                  <th>Group</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let course of courses">
+                  <td>{{ course.name }}</td>
+                  <td>{{ course.semester }}</td>
+                  <td>{{ course.group }}</td>
+                  <td>
+                    <img [src]="course.imageUrl" alt="Course image" class="img-thumbnail" style="width: 50px; height: 50px;">
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-sm me-2" (click)="editCourse(course)">
+                      Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm me-2" (click)="deleteCourse(course.id!)">
+                      Delete
+                    </button>
+                    <button class="btn btn-info btn-sm" [routerLink]="['/admin/questions', course.id]">
+                      Questions
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="container mt-4">
+  <h2>Admin Dashboard</h2>
+
+  <!-- Pending Approvals Section -->
+  <div class="card mt-4">
+    <div class="card-header bg-warning text-white">
+      <h4>Pending Approvals ({{ pendingUsers.length }})</h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Programs</th>
+              <th>Registration Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of pendingUsers">
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="badge bg-primary me-1" *ngFor="let programId of user.subscribedPrograms">
+                  Program {{ programId }}
+                </span>
+              </td>
+              <td>{{ user.createdAt | date }}</td>
+              <td>
+                <button class="btn btn-success btn-sm me-2" (click)="approveUser(user.id!)">
+                  Approve
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id!)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approved Users Section -->
+  <div class="card mt-4">
+    <div class="card-header bg-success text-white">
+      <h4>Approved Users ({{ approvedUsers.length }})</h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Programs</th>
+              <th>Approval Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of approvedUsers">
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="badge bg-primary me-1" *ngFor="let programId of user.subscribedPrograms">
+                  Program {{ programId }}
+                </span>
+              </td>
+              <td>{{ user.updatedAt | date }}</td>
+              <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteUser(user.id!)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

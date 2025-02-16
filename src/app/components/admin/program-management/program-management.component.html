@@ -1,0 +1,107 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h4>{{ isEditing ? 'Edit Program' : 'Add New Program' }}</h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="programForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="name" class="form-label">Program Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                placeholder="Enter program name"
+              >
+              <div class="text-danger" *ngIf="programForm.get('name')?.touched && programForm.get('name')?.errors?.['required']">
+                Program name is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                formControlName="description"
+                rows="3"
+                placeholder="Enter program description"
+              ></textarea>
+              <div class="text-danger" *ngIf="programForm.get('description')?.touched && programForm.get('description')?.errors?.['required']">
+                Description is required
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="imageUrl" class="form-label">Image URL</label>
+              <input
+                type="text"
+                class="form-control"
+                id="imageUrl"
+                formControlName="imageUrl"
+                placeholder="Enter image URL"
+              >
+              <div class="text-danger" *ngIf="programForm.get('imageUrl')?.touched && programForm.get('imageUrl')?.errors?.['required']">
+                Image URL is required
+              </div>
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary" [disabled]="!programForm.valid">
+                {{ isEditing ? 'Update Program' : 'Add Program' }}
+              </button>
+              <button type="button" class="btn btn-secondary" *ngIf="isEditing" (click)="resetForm()">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4>Programs List</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Image</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let program of programs">
+                  <td>{{ program.name }}</td>
+                  <td>{{ program.description }}</td>
+                  <td>
+                    <img [src]="program.imageUrl" alt="Program image" class="img-thumbnail" style="width: 50px; height: 50px;">
+                  </td>
+                  <td>
+                    <button class="btn btn-primary btn-sm me-2" (click)="editProgram(program)">
+                      Edit
+                    </button>
+                    <button class="btn btn-danger btn-sm me-2" (click)="deleteProgram(program.id!)">
+                      Delete
+                    </button>
+                    <button class="btn btn-info btn-sm" [routerLink]="['/admin/courses', program.id]">
+                      View Courses
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

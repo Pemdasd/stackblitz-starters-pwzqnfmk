@@ -1,1 +1,21 @@
-/* Add application styles & imports to this file! */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'ngx-toastr/toastr.css';
+
+/* Custom styles */
+body {
+  background-color: #f8f9fa;
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+}
